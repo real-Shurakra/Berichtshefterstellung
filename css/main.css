@@ -1,3 +1,8 @@
-.nav-item{
-	display: inline;
+.nav-link{
+	color: white;
+}
+
+.you-are-here{
+	border-color: white;
+	border-style: solid;
 }

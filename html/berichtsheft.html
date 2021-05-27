@@ -27,10 +27,10 @@
 <nav class="navbar navbar-expand-sm bg-dark">
 	<ul class="navbar-nav">
 		<li class="nav-item">
-			<a class="nav-link you-are-here" href="main.html">Startseite</a>
+			<a class="nav-link" href="main.html">Startseite</a>
 		</li>
 		<li class="nav-item">
-			<a class="nav-link" href="berichtsheft.html">Berichtshefte</a>
+			<a class="nav-link you-are-here" href="berichtsheft.html">Berichtshefte</a>
 		</li>
 		<li class="nav-item">
 			<a class="nav-link" href="anmelden.html">Anmelden</a>
@@ -43,7 +43,44 @@
 		
 		<main id="side-main">
 		
-		<p>Hier könnte Ihre Werbung stehen! </p>
+		<div class="row">
+			<div class="col-xl-3">
+				<div class="form-group">
+					<label for="sel1">Select list:</label>
+					<select class="form-control" id="sel1">
+						<option>Heft - Karl Heinz</option>
+						<option>Heft - Egon</option>
+						<option>Heft1 - Hubertus</option>
+						<option>Gehweg-Heft - Kevin</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<label for="dateinput">Tag:</label>
+					<input id="dateinput" class="form-control"  type="date">
+				</div>
+						
+				<div class="form-group">
+					<label for="berichtinput">Bericht:</label>
+					<textarea class="form-control" rows="5" id="berichtinput"></textarea>
+				</div>
+				<div class="form-group">
+					<label for="sel1">Kategorien:</label>
+					<select class="form-control" id="sel1">
+						<option>Dummy 1</option>
+						<option>Dommy 1</option>
+						<option>Kevin</option>
+					</select>
+				</div>
+			</div>
+			<div class="col-xl-9">
+			Hier Kevin!
+			</div>
+			<div class="col-xl-3">
+				<button type="button" class="btn btn-secondary" onklick="">Speichern</button>
+			</div>
+		
+		</div>
+
 		
 		</main>
 		
