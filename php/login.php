@@ -6,14 +6,14 @@ include 'databaseConnector.php';
 
 class login
 {
-	// Funktion um Instanz von 'databaseConnector' zu erzeugen
+	// Instanz von 'databaseConnector' zu erzeugen
 	function databaseConnector()
 	{
 		 $databaseConnector = new databaseConnector();
 		 return $databaseConnector;
 	}
 
-	// Funktion um die User-Credentials zu überprüfen
+	// User-Credentials zu überprüfen
     function checkCredentials( $email, $password )
     {
 		$connection = $this->databaseConnector()->connect();
