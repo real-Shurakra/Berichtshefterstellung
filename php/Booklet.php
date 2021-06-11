@@ -56,7 +56,7 @@ class Booklet
 		}
 	}
 
-} // Ende Klasse CreateBooklet
+} // Ende Klasse Booklet
 
 $booklet = new Booklet();
 echo $booklet->create($subject, $id_creator);

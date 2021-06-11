@@ -13,7 +13,7 @@ class Login
 	}
 
     function checkCredentials( $email, $password )
-    { // User-Credentials zu überprüfen
+    { // User-Credentials überprüfen
 		$connection = $this->databaseConnector()->connect();
 		
 		$sql = "SELECT id, password FROM t_apprentices WHERE email ='" . $email . "'";
