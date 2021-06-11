@@ -19,7 +19,7 @@ class Login
 		$sql = "SELECT id, password FROM t_apprentices WHERE email ='" . $email . "'";
 		$result = $connection->query($sql);
 
-		if (!$result->num_rows === 0)
+		if ($result->num_rows > 0)
 		{
 			// Durch Zeilen iterieren
 			while($row = $result->fetch_assoc())
