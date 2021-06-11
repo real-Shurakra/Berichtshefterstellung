@@ -2,7 +2,7 @@
 $subject = $_GET['subject'];
 $id_creator = $_GET['id_creator'];
 
-include 'databaseConnector.php';
+include 'DatabaseConnector.php';
 
 class Booklet
 {
@@ -18,7 +18,7 @@ class Booklet
 	{ // Prüfen ob bereits ein Berichtsheft mit dem Titel existiert
 
 		$connection = $this->databaseConnector()->connect();
-		$sql = "SELECT subject FROM t_booklets WHERE `subject` ='" . $subject . "' AND `id_creator` = " . $id_creator;
+		$sql = "SELECT subject FROM t_booklets WHERE subject ='" . $subject . "' AND id_creator = " . $id_creator;
 
 		$result = $connection->query($sql);
 		if ($result->num_rows > 0)

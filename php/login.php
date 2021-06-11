@@ -2,7 +2,7 @@
 $password = $_GET['password'];
 $email = $_GET['email'];
 
-include 'databaseConnector.php';
+include 'DatabaseConnector.php';
 
 class Login
 {
