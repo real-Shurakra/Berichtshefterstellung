@@ -4,29 +4,31 @@ $email = $_GET['email'];
 
 include 'databaseConnector.php';
 
-class login
+class Login
 {
-	// Instanz von 'databaseConnector' zu erzeugen
 	function databaseConnector()
-	{
-		 $databaseConnector = new databaseConnector();
+	{ // Instanz von 'DatabaseConnector' erzeugen
+		 $databaseConnector = new DatabaseConnector();
 		 return $databaseConnector;
 	}
 
-	// User-Credentials zu überprüfen
     function checkCredentials( $email, $password )
-    {
+    { // User-Credentials zu überprüfen
 		$connection = $this->databaseConnector()->connect();
 		
-		$sql = "SELECT password FROM t_apprentices WHERE email ='" . $email . "'";
+		$sql = "SELECT id, password FROM t_apprentices WHERE email ='" . $email . "'";
 		$result = $connection->query($sql);
 
-		if ($result)
+		if (!$result->num_rows === 0)
 		{
 			// Durch Zeilen iterieren
 			while($row = $result->fetch_assoc())
 			{
-				if( $row["password"] == $password ) return true;
+				if( $row["password"] == $password )
+				{
+					$_SESSION['id_user'] = $row['id']; 
+					return true;
+				}
 				else return false;
 			}
 		}
@@ -36,10 +38,10 @@ class login
 		}
 		$connection->close();
     }
-}
+
+} // Ende Klasse Login
 
 $login = new login();
-// echo $login->checkCredentials("hans@peter.de", "1234");
 echo $login->checkCredentials($email, $password);
 
 ?>
