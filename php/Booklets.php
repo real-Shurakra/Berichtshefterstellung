@@ -1,10 +1,10 @@
 <?php
-$subject = $_GET['subject'];
-$id_creator = $_GET['id_creator'];
+$subject 	= json_decode($_GET['subject']);
+$id_creator = json_decode($_GET['id_creator']);
 
 include 'DatabaseConnector.php';
 
-class Booklet
+class Booklets
 {
 	function databaseConnector()
 	{ // Instanz von 'DatabaseConnector' erzeugen
@@ -56,9 +56,9 @@ class Booklet
 		}
 	}
 
-} // Ende Klasse Booklet
+} // Ende Klasse Booklets
 
-$booklet = new Booklet();
-echo $booklet->create($subject, $id_creator);
+$booklets = new Booklets();
+echo $booklets->create($subject, $id_creator);
 
 ?>

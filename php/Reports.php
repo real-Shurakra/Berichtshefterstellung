@@ -1,9 +1,4 @@
 <?php
-$reportDate = $_GET['reportDate'];
-$id_author = $_GET['id_author'];
-$id_booklet = $_GET['id_booklet'];
-$id_category = $_GET['id_category'];
-$description = $_GET['description'];
 
 include 'DatabaseConnector.php';
 
@@ -31,7 +26,7 @@ class Reports
 		{
 			$rows[] = $r;
 		}
-		return json_encode($rows);
+		return $rows;
 	}
 
 
@@ -57,8 +52,27 @@ class Reports
 
 } // Ende Klasse Reports
 
-$reports = new Reports();
-//echo $reports->create($reportDate, $id_author, $id_booklet, $id_category, $description);
-echo $reports->getAllBookletReports($id_booklet);
 
+// Methoden-Aufrufauswahl
+
+$method = $_POST['method'];
+$reports = new Reports();
+if ($method == "create")
+{
+	$reportDate 	= $_POST['reportDate'];
+	$id_author 		= $_POST['id_author'];
+	$id_booklet 	= $_POST['id_booklet'];
+	$id_category 	= $_POST['id_category'];
+	$description 	= $_POST['description'];
+	echo json_encode($reports->create($reportDate, $id_author, $id_booklet, $id_category, $description));
+}
+else if ($method == "getAllBookletReports")
+{
+	$id_booklet 	= $_POST['id_booklet'];
+	echo json_encode($reports->getAllBookletReports($id_booklet));
+}
+else
+{
+	echo json_encode("Error: Die Klasse verfügt über keine Methode namens '" . $method . "'");
+}
 ?>
