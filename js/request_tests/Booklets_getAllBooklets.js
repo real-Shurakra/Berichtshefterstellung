@@ -1,16 +1,16 @@
 var formData = new FormData();
 
-formData.append("method", "getAllBookletReports");
-formData.append("id_booklet", 3);
+formData.append("method", "getAllBooklets");
+formData.append("id_creator", 1);
 
 var request = new XMLHttpRequest();
 
-request.open("POST", "../../php/Reports.php", false);
+request.open("POST", "../../php/Booklets.php", false);
 request.send(formData);
 
 var response = JSON.parse(request.responseText);
 //var response = request.responseText;
 
-console.log("reports->getAllBookletReports( $id_booklet );");
+console.log("$booklets->getAllBooklets( $id_creator );");
 console.log(response);
 console.log("------------------------------")

@@ -18,7 +18,7 @@ class Reports
 		$connection = $this->databaseConnector()->connect();
 		$sql = "SELECT * FROM t_reports WHERE id_booklet =" . $id_booklet;
 
-		$result = $connection->query($sql);
+		//$result = $connection->query($sql);
 
 		$sth = mysqli_query($connection, $sql);
 		$rows = array();
@@ -26,6 +26,7 @@ class Reports
 		{
 			$rows[] = $r;
 		}
+		$connection->close();
 		return $rows;
 	}
 

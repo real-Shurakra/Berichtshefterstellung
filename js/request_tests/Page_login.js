@@ -1,16 +1,17 @@
 var formData = new FormData();
 
-formData.append("method", "getAllBookletReports");
-formData.append("id_booklet", 3);
+formData.append("method", "login");
+formData.append("email", "hans@peter.de");
+formData.append("password", '1234');
 
 var request = new XMLHttpRequest();
 
-request.open("POST", "../../php/Reports.php", false);
+request.open("POST", "../../php/Page.php", false);
 request.send(formData);
 
 var response = JSON.parse(request.responseText);
 //var response = request.responseText;
 
-console.log("reports->getAllBookletReports( $id_booklet );");
+console.log("$page->login( $email, $password );");
 console.log(response);
 console.log("------------------------------")
