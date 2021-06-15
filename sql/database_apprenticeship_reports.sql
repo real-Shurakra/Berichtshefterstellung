@@ -33,7 +33,7 @@ CREATE TABLE t_categories(
 -- Daten für t_categories
 
 INSERT INTO t_categories (id, description) VALUES
-(1, 'Besprechung'),
+(1, 'Meeting'),
 (2, 'Projekt'),
 (3, 'Berufsschule');
 
@@ -77,8 +77,8 @@ CREATE TABLE t_reports(
 
 INSERT INTO t_reports (id, reportdate, creationdate, id_author, id_booklet, id_category, description) VALUES
 (1, '2021-08-01', '2021-08-01', 1, 1, 1, 'Liebes Berichtsheft, heute war mein erster Tag bei SuperInnovativeDEVS. In diesem Meeting wurden mir alle vorgestellt und alle hatten sich ganz doll lieb.' ),
-(2, '2021-08-02', '2021-08-03', 1, 1, 2, 'Liebes Berichtsheft, Es tut mir leid, dass ich gestern vergessen hab in dich reinzuschreiben. Deshalb hole ich das heute nach. Heute hab ich "Hallo Welt" in Assemblersprache programmiert. Das war komisch.');
-
+(2, '2021-08-02', '2021-08-03', 1, 1, 2, 'Liebes Berichtsheft, Es tut mir leid, dass ich gestern vergessen hab in dich reinzuschreiben. Deshalb hole ich das heute nach. Heute hab ich "Hallo Welt" in Assemblersprache programmiert. Das war komisch.'),
+(3, '2021-08-02', '2021-08-03', 2, 3, 2, 'Liebes Berichtsheft, Heute habe ich zum ersten Mal mit Hans Peter von SuperInnovativeDEVS zusammengearbeitet. Das war toll.');
 -- -------------------------------------------------------------------------------------------------------
 
 -- Tabelle t_memberof

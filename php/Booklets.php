@@ -49,12 +49,35 @@ class Booklets
 		$today = date("Y/m/d");
 		$connection = $this->databaseConnector()->connect();
 		$sql = "INSERT INTO t_booklets (id, creationdate, subject, id_creator) VALUES (default" . ",'" . $today . "','" . $subject . "'," . $id_creator . ")";
-
 		$result = $connection->query($sql);
 		if ($result === TRUE)
 		{	
+			$sql = "SELECT MAX(id) AS id_booklet FROM t_booklets WHERE id_creator =" . $id_creator;
+			$id_booklet;
+			$result = $connection->query($sql);
+			if($result->num_rows > 0)
+			{
+				$rows = array();
+				while($row = $result->fetch_assoc())
+				{
+					$id_booklet = $row['id_booklet'];
+				}
+			}
+			else return "Es wurden noch keine Berichtshefte angelegt!";
+		}
+		else
+		{
 			$connection->close();
-			return "Berichtsheft erfolgreich angelegt!";
+			return "Error: " . $sql . "<br>" . $connection->error;
+		}
+
+		// Author als Member eintragen
+		$sql = "INSERT INTO t_memberof (id_booklet, id_apprentice) VALUES (" . $id_booklet . "," . $id_creator . ")";
+		
+		$result = $connection->query($sql);
+		if ($result === TRUE)
+		{
+			return "Berichtsheft wurde angelegt!";
 		}
 		else
 		{
@@ -67,6 +90,7 @@ class Booklets
 	function getAllBooklets($id_creator)
 	{ // Alle angelegten Berichtshefte eines Users auslesen
 
+		$all = array();
 		// Verbindung zum SQL-Server aufbauen
 		$connection = $this->DatabaseConnector()->connect();
 
@@ -85,6 +109,7 @@ class Booklets
 			{
 				array_push($booklets, $row);
 			}
+			$all['booklets'] = $booklets;
 		}
 		else return "Es wurden noch keine Berichtshefte angelegt!";
 		
@@ -106,6 +131,7 @@ class Booklets
 					array_push($members, $row);
 				}
 			}
+			$all['members'] = $members;
 		}
 
 		
@@ -126,6 +152,7 @@ class Booklets
 					array_push($reports, $row);
 				}
 			}
+			$all['reports'] = $reports;
 		}
 		
 		
@@ -142,6 +169,7 @@ class Booklets
 			{
 				array_push($categories, $row);
 			}
+			$all['categories'] = $categories;
 		}
 		
 		
@@ -158,23 +186,26 @@ class Booklets
 			{
 				array_push($apprentices, $row);
 			}
+			$all['apprentices'] = $apprentices;
 		}
-
 		
+		//return $all;
+
+
 		// Daten fürs Frontend mergen
-		$mergedBooklets = array();
+		//$mergedBooklets = array();
 
 		for ($i = 0; $i < sizeOf($booklets); $i++)
 		{
 			$subject = $booklets[$i]['subject'];
 			$booklets[$i]['reports'] = array();
-			$mergedBooklets[$subject] = array();
+			//$mergedBooklets[$subject] = array();
 			
 			for ($j = 0; $j < sizeOf($reports); $j++)
 			{				
 				for ($k = 0; $k < sizeOf($apprentices); $k++)
 				{
-					if ($reports[$j]['id_author'] == $apprentices[$k]['id']) $reports[$j]['author'] = $apprentices[$k]['firstname'] . ". " . $apprentices[$k]['lastname'];
+					if ($reports[$j]['id_author'] == $apprentices[$k]['id']) $reports[$j]['author'] = $apprentices[$k]['firstname'] . " " . $apprentices[$k]['lastname'];
 				}
 
 				for ($k = 0; $k < sizeOf($categories); $k++)
@@ -182,10 +213,7 @@ class Booklets
 					if ($reports[$j]['id_category'] == $categories[$k]['id']) $reports[$j]['category'] = $categories[$k]['description'];
 				}
 				
-				//$tempSize = sizeOf($booklets[$i]['reports']);
-				//$booklets[$i]['reports'] = array();
-				if ($booklets[$i]['id'] == $reports[$j]['id_booklet']) $booklets[$i]['reports'][] = $reports[$j]; //TODO XAMPP updaten für neuere PHP Version
-				else $booklets[$i]['reports'] = "Noch keine Einträge vorhanden!";
+				if ($booklets[$i]['id'] == $reports[$j]['id_booklet']) array_push($booklets[$i]['reports'], $reports[$j]);
 			}
 		}
 		return $booklets;
@@ -206,9 +234,9 @@ if($method == "create")
 	$id_creator = $_POST['id_creator'];
 	echo json_encode($booklets->create($subject, $id_creator));
 }
-else if($method == 'getAllBooklets')
+else if($method == "getAllBooklets")
 {
-	$id_creator = $_POST["id_creator"];
+	$id_creator = $_POST['id_creator'];
 	echo json_encode($booklets->getAllBooklets($id_creator));
 }
 else

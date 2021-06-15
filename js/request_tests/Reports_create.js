@@ -2,10 +2,10 @@ var formData = new FormData();
 
 formData.append("method", "create");
 formData.append("reportDate", "2021-04-23");
-formData.append("id_author", 2);
+formData.append("id_author", 1);
 formData.append("id_booklet", 3);
 formData.append("id_category", 1);
-formData.append("description", "Dies ist ein Testeintrag.");
+formData.append("description", "Liebes Berichtsheft, heute habe ich zum ersten mal Heinz Dieter von TheBestITSupportGuys zusammengearbeitet. Das war gut..");
 
 var request = new XMLHttpRequest();
 
