@@ -15,27 +15,30 @@ class Page
     { // User-Credentials zum einloggen überprüfen
 		$connection = $this->databaseConnector()->connect();
 		
-		$sql = "SELECT id, password FROM t_apprentices WHERE email ='" . $email . "'";
+		$sql = "SELECT id, firstname, lastname, password FROM t_apprentices WHERE email ='" . $email . "'";
 		$result = $connection->query($sql);
 
 		if ($result->num_rows > 0)
 		{
 			// Durch Zeilen iterieren
-			
+			$response = array();
 			while($row = $result->fetch_assoc())
 			{
 				if( $row["password"] == $password )
 				{
-					$_SESSION['id_user'] = $row['id'];
+					//$_SESSION['id_user'] = $row['id'];
+					$response["id"] = $row['id'];
+					$response["firstname"] = $row['firstname'];
+					$response["lastname"] = $row['lastname'];
 					$connection->close();
-					return "Login erfolgreich! Willkommen.";
+					return $response;
 				}
 			}
 		}
 		else
 		{
 			$connection->close();
-			return "Login fehlgeschlagen! Ihre E-mail Adresse oder Ihr das Passwort sind ungültig.";
+			return false;
 		}
     }
 	
