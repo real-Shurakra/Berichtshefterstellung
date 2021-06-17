@@ -1,4 +1,4 @@
-export default class Notify{
+class Notify{
 	constructor(){
 		this.noteType = Object.freeze({
 			erfolg : '<div class="alert alert-success" role="alert">',

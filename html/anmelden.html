@@ -13,6 +13,8 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+		<script src="../js/notify.js"></script>
+		<script src="../js/cookie.js"></script>
 		<link rel="stylesheet" href="../css/main.css">
 	</head>
 
@@ -27,7 +29,7 @@
 <nav class="navbar navbar-expand-sm bg-dark">
 	<ul class="navbar-nav">
 		<li class="nav-item">
-			<a class="nav-link" href="startseite.html.html">Startseite</a>
+			<a class="nav-link" href="startseite.html">Startseite</a>
 		</li>
 		<li class="nav-item">
 			<a class="nav-link" href="berichtsheft.html">Berichtshefte</a>
@@ -36,7 +38,7 @@
 			<a class="nav-link you-are-here" href="anmelden.html">Anmelden</a>
 		</li>
 		<li class="nav-item">
-			<a class="nav-link" href="../index.php">Abmelden</a>
+			<a class="nav-link" onklick="var run = new Abmelden(); run.logout">Abmelden</a>
 		</li>
 	</ul>
 </nav>
@@ -53,14 +55,15 @@
 							<input type="password" class="form-control" id="pwd" name="pwd">
 						</div>
 					</form>
-					<button type="button" class="btn btn-dark" onclick="">Anmelden</button>
+					<button type="button" class="btn btn-dark" onclick="var run = new Anmelden(); run.login()">Anmelden</button>
 				</div>
 			</div>
 		</main>
 		<footer id="side-footer">
-		
+		<div id="notifyDiv"></div>
 		</footer>
-		
+	<script src="../js/anmelden.js"></script>
+	<script src="../js/abmelden.js"></script>
 	</body>
 
 </html>
