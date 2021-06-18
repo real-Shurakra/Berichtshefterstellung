@@ -1,4 +1,8 @@
 class Abmelden{
+    constructor(){
+        console.log('Abmelden is currently running.');
+    }
+    
     logout(){
         var cookie = new Cookie();
         cookie.setCookie('UserID', '', 0);

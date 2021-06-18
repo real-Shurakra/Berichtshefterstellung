@@ -15,6 +15,7 @@
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 		<script src="../js/notify.js"></script>
 		<script src="../js/cookie.js"></script>
+		<script src="../js/main.js"></script>
 		<link rel="stylesheet" href="../css/main.css">
 	</head>
 
@@ -26,22 +27,22 @@
 		</header>
 		
 		
-<nav class="navbar navbar-expand-sm bg-dark">
-	<ul class="navbar-nav">
-		<li class="nav-item">
-			<a class="nav-link" href="startseite.html">Startseite</a>
-		</li>
-		<li class="nav-item">
-			<a class="nav-link" href="berichtsheft.html">Berichtshefte</a>
-		</li>
-		<li class="nav-item">
-			<a class="nav-link you-are-here" href="anmelden.html">Anmelden</a>
-		</li>
-		<li class="nav-item">
-			<a class="nav-link" onklick="var run = new Abmelden(); run.logout">Abmelden</a>
-		</li>
-	</ul>
-</nav>
+		<nav class="navbar navbar-expand-sm bg-dark">
+			<ul class="navbar-nav">
+				<li id="nav-start" class="nav-item">
+					<a class="nav-link" href="startseite.html">Startseite</a>
+				</li>
+				<li id="nav-berichte" class="nav-item">
+					<a class="nav-link" href="berichtsheft.html">Berichtshefte</a>
+				</li>
+				<li id="nav-anmelden" class="nav-item">
+					<a class="nav-link you-are-here" href="anmelden.html">Anmelden</a>
+				</li>
+				<li id="nav-abmelden" class="nav-item">
+					<a class="nav-link" href="../index.php">Abmelden</a>
+				</li>
+			</ul>
+		</nav>
 		<main id="side-main">
 			<div class="row">
 				<div class="col-xl-2">
@@ -62,8 +63,7 @@
 		<footer id="side-footer">
 		<div id="notifyDiv"></div>
 		</footer>
-	<script src="../js/anmelden.js"></script>
-	<script src="../js/abmelden.js"></script>
 	</body>
+	<script src="../js/anmelden.js" defer></script>
 
 </html>

@@ -1,4 +1,8 @@
 class Anmelden{
+    constructor(){
+        console.log('Anmelden is currently running.')
+    }
+
     login () {
         var frage = new FormData();
         frage.append("method", "login");
@@ -15,15 +19,19 @@ class Anmelden{
                 
                 console.log(response);
                 var cookie = new Cookie();
-                cookie.setCookie('UserID', response['id'], 0);
-                cookie.setCookie('vName', response['firstname'], 0);
-                cookie.setCookie('nName', response['lastname'], 0);
+                cookie.setCookie('UserID', response['id'], 1);
+                cookie.setCookie('vName', response['firstname'], 1);
+                cookie.setCookie('nName', response['lastname'], 1);
                 console.log(cookie.getCookie('UserID'));
                 console.log(cookie.getCookie('vName'));
                 console.log(cookie.getCookie('nName'));
+
             } 
         }
         xml.open('POST', '../php/Page.php');
         xml.send(frage);
     }
 }
+var main = new Main();
+main.bouncer('nav-berichte');
+main.bouncer('nav-abmelden');

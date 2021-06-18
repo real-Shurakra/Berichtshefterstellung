@@ -1,5 +1,6 @@
 class Notify{
 	constructor(){
+		console.log('Notify is now startup.')
 		this.noteType = Object.freeze({
 			erfolg : '<div class="alert alert-success" role="alert">',
 			hinweis : '<div class="alert alert-info" role="alert">',
@@ -7,6 +8,7 @@ class Notify{
 			fehler : '<div class="alert alert-danger" role="alert">'
 		});
 		this.displayText = null;
+		console.log('Notify is currently running.')
 	}
 	
 	setText(type, text){
