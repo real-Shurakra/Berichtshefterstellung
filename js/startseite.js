@@ -16,7 +16,14 @@ class startseite{
         return;
     }
 
-    
+    setUsername(){
+        var cookie = new Cookie();
+        if (typeof cookie.getCookie('UserID')) {
+            
+        } else {
+            
+        }
+    }    
 }
 
 var main = new Main();
