@@ -23,16 +23,11 @@ class startseite{
     setUsername(){
         var cookie = new Cookie();
         if (typeof cookie.getCookie('UserID')) {
-            
-        } else {
-            
-        }
-    }    
-}
 
-var main = new Main();
-main.bouncer('nav-berichte');
-main.bouncer('nav-anmelden', true);
-main.bouncer('nav-abmelden');
+        } else {
+
+        }
+    }
+}
 var run = new startseite;
 run.startUp();

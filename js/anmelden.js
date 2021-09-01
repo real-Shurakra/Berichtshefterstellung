@@ -12,11 +12,11 @@ class Anmelden{
         xml.onreadystatechange = () => {
             var noty = new Notify();
             if (
-                xml.readyState == 4 && 
+                xml.readyState == 4 &&
                 xml.status == 200
             ) {
                 var response = JSON.parse(xml.responseText);
-                
+
                 console.log(response);
                 var cookie = new Cookie();
                 cookie.setCookie('UserID', response['id'], 1);
@@ -26,12 +26,9 @@ class Anmelden{
                 console.log(cookie.getCookie('vName'));
                 console.log(cookie.getCookie('nName'));
 
-            } 
+            }
         }
         xml.open('POST', '../php/Page.php');
         xml.send(frage);
     }
 }
-var main = new Main();
-main.bouncer('nav-berichte');
-main.bouncer('nav-abmelden');
