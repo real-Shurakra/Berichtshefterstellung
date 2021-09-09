@@ -42,13 +42,18 @@ class Reports
 		if ($result === TRUE)
 		{	
 			$connection->close();
-			return "Bericht erfolgreich angelegt!";
+			$arrayAnswer = array(
+				'rc'=>true,
+				'rv'=>NULL);
 		}
 		else
 		{
 			$connection->close();
-			return "Error: " . $sql . "<br>" . $connection->error;
+			$arrayAnswer = array(
+				'rc'=>false,
+				'rv'=>$connection->error);
 		}
+		return $arrayAnswer;
 	}
 
 } // Ende Klasse Reports
