@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 include 'DatabaseConnector.php';
 
 class Page
@@ -10,36 +10,39 @@ class Page
 		 return $databaseConnector;
 	}
 
-
-    function login( $email, $password )
+	function login( $email, $password )
     { // User-Credentials zum einloggen überprüfen
 		$connection = $this->databaseConnector()->connect();
-		
-		$sql = "SELECT id, firstname, lastname, password FROM t_apprentices WHERE email ='" . $email . "'";
+		$sql = "SELECT id, firstname, lastname FROM t_apprentices WHERE email ='" . $email . "' AND password = '" . $password . "'";
 		$result = $connection->query($sql);
-
-		if ($result->num_rows > 0)
-		{
-			// Durch Zeilen iterieren
-			$response = array();
+		if ($result == false){
+			$answer = array(
+				'rc' => false,
+				'rv' => '<strong>SQL Error<strong><br>Bitte melden Sie sich nei einen Administrator!'
+			);
+		}
+		elseif ($result->num_rows != 1 ){
+			$answer = array(
+				'rc' => false,
+				'rv' => '<strong>Benutzername oder Passwort fehlerhaft.<strong><br>Sollten Sie ihr passwort vergessen haben, wenden Sie sich bitte an einen Administrator'
+			);
+		}
+		else{
 			while($row = $result->fetch_assoc())
 			{
-				if( $row["password"] == $password )
-				{
-					//$_SESSION['id_user'] = $row['id'];
-					$response["id"] = $row['id'];
-					$response["firstname"] = $row['firstname'];
-					$response["lastname"] = $row['lastname'];
-					$connection->close();
-					return $response;
-				}
+				$_SESSION['id_user'] = $row['id'];
+				$answer = array(
+					'rc' => true,
+					'rv' => array(
+						"firstname" => $row['firstname'],
+						"lastname" => $row['lastname']
+					)
+				);
+				break;
 			}
 		}
-		else
-		{
-			$connection->close();
-			return false;
-		}
+		$connection->close();
+		return $answer;
     }
 	
 	

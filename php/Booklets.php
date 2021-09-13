@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 include 'DatabaseConnector.php';
 //include 'Reports.php';
@@ -41,9 +42,9 @@ class Booklets
 	}
 
 
-	function create($subject, $id_creator)
+	function create($subject)
 	{ // Neues Berichtsheft anlegen
-
+		$id_creator = $_SESSION['id_user'];
 		if ($this->subjectTaken($subject, $id_creator)) return "Ein Berichtsheft mit dem Namen existiert bereits in der Datenbank!";
 
 		$today = date("Y/m/d");
@@ -53,13 +54,9 @@ class Booklets
 		if ($result === TRUE)
 		{	
 			$sql = "SELECT MAX(id) AS id_booklet FROM t_booklets WHERE id_creator =" . $id_creator;
-			$id_booklet;
 			$result = $connection->query($sql);
-			if($result->num_rows > 0)
-			{
-				$rows = array();
-				while($row = $result->fetch_assoc())
-				{
+			if($result->num_rows > 0){
+				while($row = $result->fetch_assoc()){
 					$id_booklet = $row['id_booklet'];
 				}
 			}
@@ -68,7 +65,9 @@ class Booklets
 		else
 		{
 			$connection->close();
-			return "Error: " . $sql . "<br>" . $connection->error;
+			return array(
+				"rc" => false,
+				"rv" => "<strong>SQL Error!</strong><br>" . $connection->error);
 		}
 
 		// Author als Member eintragen
@@ -77,19 +76,29 @@ class Booklets
 		$result = $connection->query($sql);
 		if ($result === TRUE)
 		{
-			return "Berichtsheft wurde angelegt!";
+			return array(
+				"rc" => true,
+				"rv" => "Berichtsheft wurde angelegt.");
 		}
 		else
 		{
 			$connection->close();
-			return "Error: " . $sql . "<br>" . $connection->error;
+			return array(
+				"rc" => false,
+				"rv" => "<strong>SQL Error!</strong>" . $connection->error);
 		}
 	}
 	
 	
-	function getAllBooklets($id_creator)
+	function getAllBooklets()
 	{ // Alle angelegten Berichtshefte eines Users auslesen
-
+		if (isset($_SESSION['id_user']) != true){
+			return array (
+				'rc' => false,
+				'rv' => '<strong>Nicht angemeldet.</strong><br>Bitte melden Sie sich zunächst an.'
+			);
+		} 
+		$id_creator = $_SESSION['id_user'];
 		$all = array();
 		// Verbindung zum SQL-Server aufbauen
 		$connection = $this->DatabaseConnector()->connect();
@@ -111,7 +120,9 @@ class Booklets
 			}
 			$all['booklets'] = $booklets;
 		}
-		else return "Es wurden noch keine Berichtshefte angelegt!";
+		else return array(
+			"rc" => false,
+			"rv" => "Es wurden noch keine Berichtshefte angelegt!");
 		
 		
 		// Alle Member der Berichtshefte auslesen
@@ -216,7 +227,9 @@ class Booklets
 				if ($booklets[$i]['id'] == $reports[$j]['id_booklet']) array_push($booklets[$i]['reports'], $reports[$j]);
 			}
 		}
-		return $booklets;
+		return array(
+			"rc" => true,
+			"rv" => $booklets);
 		
 	}
 
@@ -231,13 +244,11 @@ $booklets = new Booklets();
 if($method == "create")
 {
 	$subject 	= $_POST['subject'];
-	$id_creator = $_POST['id_creator'];
-	echo json_encode($booklets->create($subject, $id_creator));
+	echo json_encode($booklets->create($subject));
 }
 else if($method == "getAllBooklets")
 {
-	$id_creator = $_POST['id_creator'];
-	echo json_encode($booklets->getAllBooklets($id_creator));
+	echo json_encode($booklets->getAllBooklets());
 }
 else
 {

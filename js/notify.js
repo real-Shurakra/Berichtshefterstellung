@@ -12,10 +12,12 @@ class Notify{
 	}
 	
 	setText(type, text){
+		console.log('notify.js => Notyfy.setText() -> Start')
 		this.displayText = type + text + '</div>';
 	}
 	
 	makeModal(size='sm'){
+		console.log('notify.js => Notyfy.makeModal() -> Start')
 		document.getElementById('notifyDiv').innerHTML=`
 <div class="modal fade" id="notify">
 	<div class="modal-dialog modal-` + size + `">
@@ -32,14 +34,17 @@ class Notify{
 	}
 	
 	showModal(){
+		console.log('notify.js => Notyfy.showModal() -> Start')
 		$('#notify').modal('show');
 	}
 	
 	hideModal(){
+		console.log('notify.js => Notyfy.hideModal() -> Start')
 		$('#notify').modal('hide');
 	}
 	
 	deleteModal(){
+		console.log('notify.js => Notyfy.deleteModal() -> Start')
 		document.getElementById('notifyDiv').innerHTML='';
 	}
 }
