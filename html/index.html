@@ -19,75 +19,43 @@
 	</head>
 
 	<body id="side-body">
-	
-		<header id="side-header">
-			<h1>Berichtshefterstellung</h1>
-		</header>
-		
-		
-		<nav class="navbar navbar-expand-sm bg-dark">
-			<ul class="navbar-nav">
-				<li id="nav-anmelden" class="nav-item"></li>
-			</ul>
-		</nav>
-		
-		<main id="side-main">
-		
-		<div class="row">
-			<div class="col-xl-3"></div>
-			<div id="checkLoginResponse" class="col-xl-6">
-				<div id="options" class="form-group"></div>
-                <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#newBookletModal">Neues Heft anlegen</button>
-				<div class="form-group">
-					<label for="dateinput">Tag:</label>
-					<input id="dateinput" class="form-control"  type="date">
-				</div>
-				
-				<div class="form-group">
-                    <p>Berichte</p>
-                    <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#newReportModal">Neuer Bericht</button>
-                    <div id="reports" class="shadow-none p-3 mb-5 bg-light rounded"></div>
-				</div>
-				<!--<div class="form-group">
-					<label for="sel1">Kategorien:</label>
-					<select class="form-control" id="sel1">
-						<option>Dummy 1</option>
-						<option>Dommy 1</option>
-						<option>Kevin</option>
-					</select>
-				</div>-->
-			</div>
-			<div class="col-xl-3"></div>
-		
-		</div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xl-10">
+                    <h1>Berichtshefterstellung</h1>
+                </div>
+                <div id="btnLogoutDiv" class="col-xl-2"></div>
+                <div class="col-xl-12">
+                    <div id="topBlackBar"></div>
+                </div>
+                <div class="col-xl-12">
+                    <div id="topSpaceBar"></div>
+                </div>
+            </div>
+            <div id="content" class="row">
+            </div>
+            <footer>
+                <button onclick="topFunction()" id="btnToTop" title="Zurück nach oben scrollen">Nach oben</button>
+            </footer>
+        </div>
 
-		
-		</main>
-		
-		<footer id="side-footer">
-		
-		</footer>
-
+        <!-- Modale -->
         <!-- New booklet modal-->
         <div>
-            <!-- The Modal -->
             <div class="modal fade" id="newBookletModal">
                 <div class="modal-dialog">
                     <div class="modal-content">
-                
                         <!-- Modal Header -->
                         <div class="modal-header">
                             <h4 class="modal-title">Neues Heft anlegen</h4>
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                         </div>
-                
                         <!-- Modal body -->
                         <div class="modal-body">
                             <p>Bitte den Namen des Heftes eintragen:</p>
                             <input type="text" class="form-control" id="newBookletName">
                             <div id="newBookletModalResponse">
                         </div>
-                
                         <!-- Modal footer -->
                         <div class="modal-footer">
                             <button type="button" class="btn btn-success" onclick="createBooklet(document.getElementById('newBookletName').value)">Speichern</button>
@@ -100,17 +68,14 @@
 
         <!-- new report modal-->
         <div>
-            <!-- The Modal -->
             <div class="modal fade" id="newReportModal">
                 <div class="modal-dialog">
                 <div class="modal-content">
-            
                     <!-- Modal Header -->
                     <div class="modal-header">
                     <h4 class="modal-title">Neuen Bericht schreiben</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     </div>
-            
                     <!-- Modal body -->
                     <div class="modal-body">
                         <input id="newReportDate" class="form-control"  type="date">
@@ -118,49 +83,10 @@
                         <div id="newReportCategorySelect"></div>
                         <div id="newReportModalResponse"></div>
                     </div>
-            
                     <!-- Modal footer -->
                     <div class="modal-footer">
                         <button type="button" class="btn btn-success" onclick="createReport()">Speichern</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                    </div>
-            
-                </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Login Modal-->
-        <div>
-            <!-- The Modal -->
-            <div class="modal fade" id="login">
-                <div class="modal-dialog">
-                <div class="modal-content">
-            
-                    <!-- Modal Header -->
-                    <div class="modal-header">
-                    <h4 class="modal-title">Neues Heft anlegen</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    </div>
-            
-                    <!-- Modal body -->
-                    <div class="modal-body">
-                        <form id="creds">
-                            <div class="form-group">
-                                <label for="usr">E-Mail:</label>
-                                <input type="text" class="form-control" id="usr" name="usr">
-                            </div>
-                            <div class="form-group">
-                                <label for="pwd">Passwort:</label>
-                                <input type="password" class="form-control" id="pwd" name="pwd">
-                            </div>
-                        </form>
-                        
-                    </div>
-            
-                    <!-- Modal footer -->
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-success" onclick="login()">Anmelden</button>
+                        <button type="button" class="btn btn-warning" onclick="getRandomReport()">Zufall</button>
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                     </div>
             
@@ -168,8 +94,40 @@
                 </div>
             </div>
         </div>
+
+        <!-- new coauthor modal-->
+        <div>
+            <div class="modal fade" id="newCoAuthor">
+                <div class="modal-dialog">
+                <div class="modal-content">
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                    <h4 class="modal-title">Neuen Bericht schreiben</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="newCoAuthorMail">E-Mail Adresse:</label>
+                            <a href="#" class="btnToTheRight" onclick="getAllMail()"><img src="../src/bootstrap-reboot.svg" alt="Reload Mail"></a>
+                            <input list="newCoAuthorDatalist" type="text" class="form-control" id="newCoAuthorMail">
+                            <div id="newCoAuthorResponse"></div>
+                        </div>
+                    </div>
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success" onclick="addCoAuthor()">Hinzufügen</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
        
+        <!-- Notify modal-->
         <div id="notifyDiv"></div>
+
+        <datalist id="newCoAuthorDatalist"></datalist>
 
     </body>
 

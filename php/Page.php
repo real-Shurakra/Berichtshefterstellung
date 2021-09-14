@@ -33,10 +33,7 @@ class Page
 				$_SESSION['id_user'] = $row['id'];
 				$answer = array(
 					'rc' => true,
-					'rv' => array(
-						"firstname" => $row['firstname'],
-						"lastname" => $row['lastname']
-					)
+					'rv' => NULL
 				);
 				break;
 			}

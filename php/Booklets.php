@@ -13,14 +13,12 @@ class Booklets
 		 return $databaseConnector;
 	}
 	
-	
 	function Reports()
 	{ // Instanz von 'Reports' erzeugen
 
 		 //$reports = new Reports();
 		 //return $reports;
 	}
-
 
 	function subjectTaken($subject, $id_creator)
 	{ // Prüfen ob bereits ein Berichtsheft mit dem Titel existiert
@@ -40,7 +38,6 @@ class Booklets
 			return false;
 		}
 	}
-
 
 	function create($subject)
 	{ // Neues Berichtsheft anlegen
@@ -88,7 +85,6 @@ class Booklets
 				"rv" => "<strong>SQL Error!</strong>" . $connection->error);
 		}
 	}
-	
 	
 	function getAllBooklets()
 	{ // Alle angelegten Berichtshefte eines Users auslesen
@@ -203,8 +199,8 @@ class Booklets
 		//return $all;
 
 
-		// Daten fürs Frontend mergen
-		//$mergedBooklets = array();
+			// Daten fürs Frontend mergen
+			//$mergedBooklets = array();
 
 		for ($i = 0; $i < sizeOf($booklets); $i++)
 		{
@@ -224,34 +220,124 @@ class Booklets
 					if ($reports[$j]['id_category'] == $categories[$k]['id']) $reports[$j]['category'] = $categories[$k]['description'];
 				}
 				
-				if ($booklets[$i]['id'] == $reports[$j]['id_booklet']) array_push($booklets[$i]['reports'], $reports[$j]);
+				if ($booklets[$i]['id'] == $reports[$j]['id_booklet'])
+				{
+					if(!in_array($reports[$j],$booklets[$i]['reports'],true)) array_push($booklets[$i]['reports'], $reports[$j]);
+				}
 			}
 		}
+
 		return array(
 			"rc" => true,
 			"rv" => $booklets);
 		
 	}
 
-} // Ende Klasse Booklets
+	function getCoAuthors ($strBookletId) {
+		$connection = $this->databaseConnector()->connect();
+		$sql = "SELECT userid, email, firstname, lastname, occupation FROM getcoauthors WHERE bookletid = " . $strBookletId . ";";
 
+		$result = $connection->query($sql);
+		$rows = array();
+		while($r = mysqli_fetch_assoc($result))
+		{
+			if ($r['userid'] == $_SESSION['id_user']){continue;}
+			$rows[] = $r;
+		}
+		if ($rows == []){
+			return true;
+		}
+		$connection->close();
+		return $rows;
+	}
+
+	function getAllMail () {
+		$connection = $this->databaseConnector()->connect();
+		$sql = "SELECT id AS userid, email FROM t_apprentices;";
+		$result = $connection->query($sql);
+		if (!$result) {
+			return false;
+		}
+		$rows = array();
+		while($r = mysqli_fetch_assoc($result))
+		{
+			if ($r['userid'] == $_SESSION['id_user']){continue;}
+			$rows[] = $r['email'];
+		}
+		return $rows;
+	}
+
+	function addCoAuthor ($strAuthorMail, $strBookletId){
+		$connection = $this->databaseConnector()->connect();
+		$sql = "INSERT INTO t_memberof(id_booklet, id_apprentice) VALUES(".$strBookletId." , (SELECT id FROM t_apprentices WHERE email = '".$strAuthorMail."'));";
+		$result = $connection->query($sql);
+		if (!$result){
+			$answer = array(
+				'rc' => false,
+				'rv' => "<strong>SQL Error!</strong><br>" . $connection->error
+			);
+		}
+		else {
+			$answer = array(
+				'rc' => true,
+				'rv' => NULL
+			);
+		}
+		return $answer;
+	}
+	
+	function delCoAuthors ($arrayCoAuthors, $strBookletId){
+		$arrayCoAuthors = explode(',', $arrayCoAuthors);
+		$connection = $this->databaseConnector()->connect();
+		foreach ($arrayCoAuthors as $arrayCoAuthorsId){
+			$sql = "DELETE FROM t_memberof WHERE id_booklet = ".$strBookletId." AND id_apprentice = ".$arrayCoAuthorsId.";";
+			$result = $connection->query($sql);
+			if (!$result){
+				$answer = array(
+					'rc' => false,
+					'rv' => "<strong>SQL Error!</strong><br>" . $connection->error
+				);
+				break;
+			}
+			else {
+				$answer = array(
+					'rc' => true,
+					'rv' => NULL
+				);
+			}
+		}
+		return $answer;
+	}
+
+	function getRandomReport() {
+		$connection = $this->databaseConnector()->connect();
+		$sql = "SELECT description FROM t_reports;";
+		$result = $connection->query($sql);
+		if (!$result) {
+			return false;
+		}
+		$rows = array();
+		while($r = mysqli_fetch_assoc($result))
+		{
+			$rows[] = $r;
+		}
+		return $rows[rand(0, count($rows)-1)];
+	}
+
+} // Ende Klasse Booklets
 
 // Methoden-Aufrufauswahl
 
-$method = $_POST['method'];
+$method = $_REQUEST['method'];
 $booklets = new Booklets();
 
-if($method == "create")
-{
-	$subject 	= $_POST['subject'];
-	echo json_encode($booklets->create($subject));
-}
-else if($method == "getAllBooklets")
-{
-	echo json_encode($booklets->getAllBooklets());
-}
-else
-{
-	echo json_encode("Error: Die Klasse verfügt über keine Methode namens '" . $method . "'");
-}
+if		($method == "create")			{echo json_encode($booklets->create($_POST['subject']));}
+else if	($method == "getAllBooklets")	{echo json_encode($booklets->getAllBooklets());}
+else if	($method == "getCoAuthors")		{echo json_encode($booklets->getCoAuthors($_REQUEST['strBookletId']));}
+else if	($method == "addCoAuthor")		{echo json_encode($booklets->addCoAuthor($_REQUEST['strAuthorMail'], $_REQUEST['strBookletId']));}
+else if	($method == "delCoAuthors")		{echo json_encode($booklets->delCoAuthors($_REQUEST['arrayCoAuthors'], $_REQUEST['strBookletId']));}
+else if	($method == "getAllMail")		{echo json_encode($booklets->getAllMail());}
+else if	($method == "getRandomReport")		{echo json_encode($booklets->getRandomReport());}
+
+else	{echo json_encode("Error: Die Klasse verfügt über keine Methode namens '" . $method . "'");}
 ?>
