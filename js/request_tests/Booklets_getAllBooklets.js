@@ -5,7 +5,7 @@ formData.append("id_creator", 1);
 
 var request = new XMLHttpRequest();
 
-request.open("POST", "../../php/Booklets.php", false);
+request.open("POST", "../php/Booklets.php", false);
 request.send(formData);
 
 var response = JSON.parse(request.responseText);

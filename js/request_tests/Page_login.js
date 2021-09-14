@@ -6,7 +6,7 @@ formData.append("password", '1234');
 
 var request = new XMLHttpRequest();
 
-request.open("POST", "../../php/Page.php", false);
+request.open("POST", "../php/Page.php", false);
 request.send(formData);
 
 var response = JSON.parse(request.responseText);

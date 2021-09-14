@@ -10,22 +10,22 @@ class Anmelden{
         frage.append("password", document.getElementById('pwd').value);
         var xml = new XMLHttpRequest();
         xml.onreadystatechange = () => {
-            var noty = new Notify();
             if (
                 xml.readyState == 4 &&
                 xml.status == 200
             ) {
+                var noty = new Notify();
                 var response = JSON.parse(xml.responseText);
-
-                console.log(response);
-                var cookie = new Cookie();
-                cookie.setCookie('UserID', response['id'], 1);
-                cookie.setCookie('vName', response['firstname'], 1);
-                cookie.setCookie('nName', response['lastname'], 1);
-                console.log(cookie.getCookie('UserID'));
-                console.log(cookie.getCookie('vName'));
-                console.log(cookie.getCookie('nName'));
-
+                if (response == false) {
+                    noty.setText(noty.noteType.warnung, 'Benutzername oder Passwort fehlerhaft.')
+                }
+                else{
+                    var gIntUserId = response['id']
+                    console.log(gIntUserId)
+                    noty.setText(noty.noteType.erfolg, 'Wilkommen ' + response['firstname'] + ' ' + response['lastname'])
+                }
+                noty.makeModal()
+                noty.showModal()
             }
         }
         xml.open('POST', '../php/Page.php');

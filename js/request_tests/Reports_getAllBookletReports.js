@@ -5,7 +5,7 @@ formData.append("id_booklet", 3);
 
 var request = new XMLHttpRequest();
 
-request.open("POST", "../../php/Reports.php", false);
+request.open("POST", "../php/Reports.php", false);
 request.send(formData);
 
 var response = JSON.parse(request.responseText);

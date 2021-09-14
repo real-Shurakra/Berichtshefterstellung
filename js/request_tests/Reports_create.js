@@ -9,7 +9,7 @@ formData.append("description", "Liebes Berichtsheft, heute habe ich zum ersten m
 
 var request = new XMLHttpRequest();
 
-request.open("POST", "../../php/Reports.php", false);
+request.open("POST", "../php/Reports.php", false);
 request.send(formData);
 
 var response = JSON.parse(request.responseText);
