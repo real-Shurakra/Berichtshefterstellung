@@ -1,5 +1,7 @@
 <?php
 
+//var_dump(__DIR__ . '/DatabaseConnector.php');
+
 include 'DatabaseConnector.php';
 //include 'Reports.php';
 
@@ -11,8 +13,8 @@ class Booklets
 		 $databaseConnector = new DatabaseConnector();
 		 return $databaseConnector;
 	}
-	
-	
+
+
 	function Reports()
 	{ // Instanz von 'Reports' erzeugen
 
@@ -51,7 +53,7 @@ class Booklets
 		$sql = "INSERT INTO t_booklets (id, creationdate, subject, id_creator) VALUES (default" . ",'" . $today . "','" . $subject . "'," . $id_creator . ")";
 		$result = $connection->query($sql);
 		if ($result === TRUE)
-		{	
+		{
 			$sql = "SELECT MAX(id) AS id_booklet FROM t_booklets WHERE id_creator =" . $id_creator;
 			$id_booklet;
 			$result = $connection->query($sql);
@@ -73,7 +75,7 @@ class Booklets
 
 		// Author als Member eintragen
 		$sql = "INSERT INTO t_memberof (id_booklet, id_apprentice) VALUES (" . $id_booklet . "," . $id_creator . ")";
-		
+
 		$result = $connection->query($sql);
 		if ($result === TRUE)
 		{
@@ -85,15 +87,14 @@ class Booklets
 			return "Error: " . $sql . "<br>" . $connection->error;
 		}
 	}
-	
-	
+
 	function getAllBooklets($id_creator)
 	{ // Alle angelegten Berichtshefte eines Users auslesen
 
 		$all = array();
+
 		// Verbindung zum SQL-Server aufbauen
 		$connection = $this->DatabaseConnector()->connect();
-
 
 		// Alle Berichtshefte auslesen die erstellt wurden (Metadaten)
 		$sql = "SELECT * 
@@ -112,8 +113,8 @@ class Booklets
 			$all['booklets'] = $booklets;
 		}
 		else return "Es wurden noch keine Berichtshefte angelegt!";
-		
-		
+
+
 		// Alle Member der Berichtshefte auslesen
 		$members = array();
 		for ($i = 0; $i < sizeOf($booklets); $i++)
@@ -121,9 +122,9 @@ class Booklets
 			$sql = "SELECT *
 					FROM t_memberof
 					WHERE id_booklet =" . $booklets[$i]['id'];
-					
+
 			$result = $connection->query($sql);
-			
+
 			if($result->num_rows > 0)
 			{
 				while($row = $result->fetch_assoc())
@@ -134,7 +135,7 @@ class Booklets
 			$all['members'] = $members;
 		}
 
-		
+
 		// Alle Reports der Member auslesen
 		$reports = array();
 		for ($i = 0; $i < sizeOf($members); $i++)
@@ -146,7 +147,7 @@ class Booklets
 			$result = $connection->query($sql);
 
 			if($result->num_rows > 0)
-			{	
+			{
 				while($row = $result->fetch_assoc())
 				{
 					array_push($reports, $row);
@@ -154,8 +155,8 @@ class Booklets
 			}
 			$all['reports'] = $reports;
 		}
-		
-		
+
+
 		// Alle Kategorien auslesen
 		$sql = "SELECT * 
 				FROM t_categories";
@@ -171,8 +172,8 @@ class Booklets
 			}
 			$all['categories'] = $categories;
 		}
-		
-		
+
+
 		// Alle IDs der User auslesen
 		$sql = "SELECT firstname, lastname, id 
 				FROM t_apprentices";
@@ -188,7 +189,7 @@ class Booklets
 			}
 			$all['apprentices'] = $apprentices;
 		}
-		
+
 		//return $all;
 
 
@@ -200,9 +201,9 @@ class Booklets
 			$subject = $booklets[$i]['subject'];
 			$booklets[$i]['reports'] = array();
 			//$mergedBooklets[$subject] = array();
-			
+
 			for ($j = 0; $j < sizeOf($reports); $j++)
-			{				
+			{
 				for ($k = 0; $k < sizeOf($apprentices); $k++)
 				{
 					if ($reports[$j]['id_author'] == $apprentices[$k]['id']) $reports[$j]['author'] = $apprentices[$k]['firstname'] . " " . $apprentices[$k]['lastname'];
@@ -212,12 +213,12 @@ class Booklets
 				{
 					if ($reports[$j]['id_category'] == $categories[$k]['id']) $reports[$j]['category'] = $categories[$k]['description'];
 				}
-				
+
 				if ($booklets[$i]['id'] == $reports[$j]['id_booklet']) array_push($booklets[$i]['reports'], $reports[$j]);
 			}
 		}
 		return $booklets;
-		
+
 	}
 
 } // Ende Klasse Booklets

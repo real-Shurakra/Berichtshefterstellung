@@ -1,8 +1,13 @@
 .nav-link{
 	color: white;
+	cursor: pointer;
+	pointer-events: all;
 }
 
-.you-are-here{
+.nav-item {
+	border: solid #343a40;
+}
+
+.nav-item.active {
 	border-color: white;
-	border-style: solid;
 }

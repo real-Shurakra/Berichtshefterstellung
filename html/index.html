@@ -17,18 +17,20 @@
 <body id="side-body">
 <div id="header">
     <header id="side-header">
-        <h1>Berichtshefterstellung</h1>
-        <p id="header-username">Willkommen Sample User</p>
+        <div class="ml-4 mt-2">
+            <h1>Berichtshefterstellung</h1>
+            <p id="header-username">Willkommen Sample User</p>
+        </div>
     </header>
 
 
     <nav class="navbar navbar-expand-sm bg-dark">
         <ul class="navbar-nav">
-            <li id="nav-start" class="nav-item">
+            <li id="nav-start" class="nav-item active">
                 <a class="nav-link">Startseite</a>
             </li>
             <li id="nav-berichte" class="nav-item">
-                <a class="nav-link you-are-here">Berichtshefte</a>
+                <a class="nav-link">Berichtshefte</a>
             </li>
             <li id="nav-anmelden" class="nav-item">
                 <a class="nav-link">Anmelden</a>
@@ -41,7 +43,10 @@
 </div>
 
 
-<div id="content">
+<div id="content" class="container mt-3">
+    <div id="bookletGrid" class="custom-grid d-flex row">
+
+    </div>
 
 </div>
 
@@ -55,5 +60,6 @@
 <script src="../js/startseite.js" defer></script>
 <script src="../js/menu.js" defer></script>
 <script src="../js/notify.js" defer></script>
+<script src="../js/booklet.js" defer></script>
 </body>
 </html>
