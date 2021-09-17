@@ -310,18 +310,33 @@ class Booklets
 	}
 
 	function getRandomReport() {
+		$rows = array();
 		$connection = $this->databaseConnector()->connect();
 		$sql = "SELECT description FROM t_reports WHERE id_author = ".$_SESSION['id_user'].";";
 		$result = $connection->query($sql);
 		if (!$result) {
-			return false;
+			$answer = array(
+				'rc' => false,
+				'rv' => '<strong>SQL Fehler bei Funktion "delCoAuthor"</strong><br>Bitte Kontaktieren Sie einen Administrator'
+			) ;
 		}
-		$rows = array();
-		while($r = mysqli_fetch_assoc($result))
-		{
-			$rows[] = $r;
+		else if ($result->num_rows == 0) {
+			$answer = array(
+				'rc' => true,
+				'rv' => NULL
+			) ;
 		}
-		return $rows[rand(0, count($rows)-1)];
+		else{
+			while($r = mysqli_fetch_assoc($result))
+			{
+				$rows[] = $r;
+			}
+			$answer = array(
+				'rc' => true,
+				'rv' => $rows[rand(0, count($rows)-1)]
+			);
+		}
+		return $answer;
 	}
 
 } // Ende Klasse Booklets

@@ -71,7 +71,7 @@ class Reports
 	}
 
 	function alterreport($reportid, $newDescrioption) {
-		$sql = "UPDATE t_reports SET description='".$newDescrioption."' WHERE id = ".$reportid.";";
+		$sql = "UPDATE t_reports SET description='".$newDescrioption."', edited=".$_SESSION['id_user']." WHERE id = ".$reportid.";";
 		$connection = $this->databaseConnector()->connect();
 		$result = $connection->query($sql);
 		if ($result === TRUE)

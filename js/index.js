@@ -79,6 +79,7 @@ function getRepots() {
     request.open("POST", "../php/Booklets.php", false);
     request.send(formData);
     var response = JSON.parse(request.responseText);
+    console.log(response)
     if (response['rc']){
         for (var i in response['rv']){
             var checkReportName = response['rv'][i]['subject'];
@@ -89,18 +90,25 @@ function getRepots() {
                 document.getElementById('dateinput').value = creationdate;
                 for (var i2 in response['rv'][i]['reports']){
                     var category = response['rv'][i]['reports'][i2]['category']
+                    if (category == 'Meeting'){category = '<dev class="reportCategory btnToTheRight" style="background-color: blanchedalmond">Meeting</dev>'}
+                    else if (category == 'Projekt') {category = '<dev class="reportCategory btnToTheRight" style="background-color: aquamarine">Projekt</dev>'}
+                    else if (category == 'Berufsschule') {category = '<dev class="reportCategory btnToTheRight" style="background-color: pink">Berufsschule</dev>'}
+                    else {category = '<dev class="reportCategory btnToTheRight" style="background-color: balck">Ordnungswiedrige Beschäftigung</dev>'}
                     var reportdate = response['rv'][i]['reports'][i2]['reportdate']
                     var description = response['rv'][i]['reports'][i2]['description']
                     var reportid = response['rv'][i]['reports'][i2]['id']
-                    report += '<div col-'
-                    report += '<label for="reportinput">Bericht '+counter+': '+category+'-Bericht  vom '+reportdate+'</label>'
+                    var user = response['rv'][i]['reports'][i2]['author']
+                    report += '<div class="reportItem col-xl-12 shadow-none p-3 mb-3 bg-light rounded">'
+                    report += '<label class="labelReport" for="reportinput">Bericht '+counter+' von '+user+' vom '+reportdate+'</label>'+category
                     report += '<textarea class="form-control" rows="5" id="report_'+reportid+'">'+description+'</textarea>'
-                    report += '<button type="button" class="btn btn-success" onclick="alterreport('+reportid+')">Speichern</button><button type="button" class="btn btn-danger" onclick="deletereport('+reportid+')">Löschen</button>'
+                    report += '<button type="button" class="btnReport btn btn-success" onclick="alterreport('+reportid+')">Speichern</button><button type="button" class="btnReport btn btn-danger" onclick="deletereport('+reportid+')">Löschen</button>'
+                    report += '</div>'
                     counter += 1
                 }
-            document.getElementById('reports').innerHTML = report;
-            getCoAuthors();
-            return;
+                checkRandomReport();
+                document.getElementById('reports').innerHTML = report;
+                getCoAuthors();
+                return;
             }
         }
     }
@@ -210,6 +218,7 @@ function bouncerCheck () {
         getAllCategories();
         getAllBooklets();
         getAllMail();
+        checkRandomReport();
     }
     else{
         document.getElementById('content').innerHTML = htmLoad('login.htm');
@@ -393,22 +402,28 @@ function getSelectValues(select) {
       if (opt.selected) {result.push(opt.value || opt.text);}
     }
     return result;
-  }
+}
 
 function getRandomReport() {
     var xml = new XMLHttpRequest();
     xml.open('POST', '../php/Booklets.php?method=getRandomReport', false);
     xml.send();
     var response = JSON.parse(xml.responseText);
-    if (!response){
+    console.log(response)
+    if (!response['rc']){
         var classNotify = new Notify();
-        classNotify.setText(classNotify.noteType.fehler, '<strong>SQL Fehler bei Funktion "delCoAuthor"</strong><br>Bitte Kontaktieren Sie einen Administrator')
+        classNotify.setText(classNotify.noteType.fehler, response['rv'])
         classNotify.makeModal()
         classNotify.showModal()
         return;
     }
+    else if(response['rc'] && 
+            response['rv'] == null){
+        return;
+    }
     else{
-        document.getElementById('newReportText').innerHTML = response['description'];
+        document.getElementById('newReportText').innerHTML = response['rv']['description'];
+        return;
     }
 }
 
@@ -457,6 +472,15 @@ function register() {
         classNotify.makeModal();
         classNotify.showModal();
     }
+}
+
+function checkRandomReport() {
+    var xml = new XMLHttpRequest();
+    xml.open('POST', '../php/Booklets.php?method=getRandomReport', false);
+    xml.send();
+    var response = JSON.parse(xml.responseText);
+    if (response['rc'] && response['rv'] == null){document.getElementById('btnMakeRandomReport').disabled = true;}
+    else{document.getElementById('btnMakeRandomReport').disabled = false;}
 }
 
 bouncerCheck();
