@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 17. Sep 2021 um 09:01
+-- Erstellungszeit: 17. Sep 2021 um 09:15
 -- Server-Version: 10.4.8-MariaDB
 -- PHP-Version: 7.2.24
 
@@ -149,7 +149,10 @@ CREATE TABLE `t_reports` (
 --
 
 INSERT INTO `t_reports` (`id`, `reportdate`, `creationdate`, `id_author`, `id_booklet`, `id_category`, `description`) VALUES
-(27, '2021-09-17', '2021-09-17', 4, 10, 1, 'Heute habe ich Kuchen gegessen');
+(27, '2021-09-17', '2021-09-17', 4, 10, 1, 'Heute habe ich Kuchen gegessen'),
+(28, '2021-09-20', '2021-09-17', 4, 10, 1, 'Heute gab es noch mehr Kuchen!'),
+(29, '2021-09-21', '2021-09-17', 4, 10, 2, 'Ich habe ein Kuchen-Projekt erhalten <3'),
+(30, '2021-09-22', '2021-09-17', 4, 10, 3, 'Ich hasse Berufsschule.\r\nKein Kuchen...');
 
 -- --------------------------------------------------------
 
@@ -230,7 +233,7 @@ ALTER TABLE `t_categories`
 -- AUTO_INCREMENT für Tabelle `t_reports`
 --
 ALTER TABLE `t_reports`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- Constraints der exportierten Tabellen
