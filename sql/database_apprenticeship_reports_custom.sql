@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 14. Sep 2021 um 12:10
+-- Erstellungszeit: 17. Sep 2021 um 09:01
 -- Server-Version: 10.4.8-MariaDB
 -- PHP-Version: 7.2.24
 
@@ -23,6 +23,7 @@ SET time_zone = "+00:00";
 --
 CREATE DATABASE IF NOT EXISTS `apprenticeship_reports` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 USE `apprenticeship_reports`;
+
 -- --------------------------------------------------------
 
 --
@@ -60,9 +61,9 @@ CREATE TABLE `t_apprentices` (
 --
 
 INSERT INTO `t_apprentices` (`id`, `email`, `firstname`, `lastname`, `occupation`, `password`) VALUES
-(1, 'hans@peter.de', 'Hans', 'Peter', 'Fachinformatiker Anwendungsentwicklung', '1234'),
-(2, 'Heinz@dieter.de', 'Heinz', 'Dieter', 'Fachinformatiker Systemintegration', '5678'),
-(3, 'Cute@katze.net', 'Kitty', 'Cute', 'Staadlich geprüfte Glas-vom-Tisch-schupserin', 'cute');
+(4, 'hans@peter.de', 'Hans', 'Peter', 'Fachinformatiker Anwendungsentwicklung', '597e1fa82f708f6c7b399938f58ca11cf785dd3a0943977b602b35c47a7e3ab8e9c4e67d7b0559ff0969e886bbd27aa9b393544550aafabbe2fd05b2b2741098'),
+(5, 'Heinz@dieter.de', 'Heinz', 'Dieter', 'Fachinformatiker Systemintegration', '0dfa94c36719f0b67c07b3740ab3924fa37b6cd746543a5a1d47dd7f71eb42ed084531ba353943fa83e220ca8d77429e2ebf38e114f40950c4c00a493610cb7d'),
+(6, 'Cute@katze.net', 'Kitty', 'Cute', 'Staadlich geprüfte Glas-vom-Tisch-schupserin', 'd836d65dfe8cc15b06dc1b22232b212717b75a6eaa10504624e0017d72596fab0101552ea1c7f4f59cef1880942ed35883630697294c5e488e1ab809bf629ef1');
 
 -- --------------------------------------------------------
 
@@ -83,14 +84,7 @@ CREATE TABLE `t_booklets` (
 --
 
 INSERT INTO `t_booklets` (`id`, `creationdate`, `subject`, `id_creator`) VALUES
-(1, '2021-08-01', 'SuperInnovativeDEVS', 1),
-(2, '2021-08-01', 'TheBestITSupportGuys', 2),
-(3, '2021-08-05', 'Zusammenarbeit IT & DEV', 1),
-(4, '2021-09-13', 'New Heft', 1),
-(5, '2021-09-13', 'New Heft2', 1),
-(6, '2021-09-13', 'New Heft3', 1),
-(7, '2021-09-14', 'Katze', 1),
-(8, '2021-09-14', 'Katze2', 1);
+(10, '2021-09-17', 'Bericht', 4);
 
 -- --------------------------------------------------------
 
@@ -130,13 +124,8 @@ CREATE TABLE `t_memberof` (
 --
 
 INSERT INTO `t_memberof` (`id_booklet`, `id_apprentice`) VALUES
-(1, 3),
-(3, 2),
-(4, 1),
-(5, 1),
-(6, 1),
-(7, 1),
-(8, 1);
+(10, 4),
+(10, 6);
 
 -- --------------------------------------------------------
 
@@ -160,10 +149,7 @@ CREATE TABLE `t_reports` (
 --
 
 INSERT INTO `t_reports` (`id`, `reportdate`, `creationdate`, `id_author`, `id_booklet`, `id_category`, `description`) VALUES
-(2, '2021-08-02', '2021-08-03', 1, 1, 2, 'Liebes Berichtsheft, Es tut mir leid, dass ich gestern vergessen hab in dich reinzuschreiben. Deshalb hole ich das heute nach. Heute hab ich \"Hallo Welt\" in Assemblersprache programmiert. Das war komisch.'),
-(3, '2021-08-02', '2021-08-03', 2, 3, 2, 'Liebes Berichtsheft, Heute habe ich zum ersten Mal mit Hans Peter von SuperInnovativeDEVS zusammengearbeitet. Das war toll.'),
-(21, '2021-09-14', '2021-09-14', 1, 1, 2, 'Hello darkness, my old friend.'),
-(24, '2021-09-13', '2021-09-14', 1, 1, 3, 'Katze');
+(27, '2021-09-17', '2021-09-17', 4, 10, 1, 'Heute habe ich Kuchen gegessen');
 
 -- --------------------------------------------------------
 
@@ -226,13 +212,13 @@ ALTER TABLE `t_reports`
 -- AUTO_INCREMENT für Tabelle `t_apprentices`
 --
 ALTER TABLE `t_apprentices`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT für Tabelle `t_booklets`
 --
 ALTER TABLE `t_booklets`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT für Tabelle `t_categories`
@@ -244,7 +230,7 @@ ALTER TABLE `t_categories`
 -- AUTO_INCREMENT für Tabelle `t_reports`
 --
 ALTER TABLE `t_reports`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- Constraints der exportierten Tabellen

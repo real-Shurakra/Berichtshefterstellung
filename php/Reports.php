@@ -12,7 +12,6 @@ class Reports
 		 return $databaseConnector;
 	}
 
-
 	function getAllBookletReports($id_booklet)
 	{ // Alle Berichte eines Berichtsheftes auslesen
 
@@ -30,7 +29,6 @@ class Reports
 		$connection->close();
 		return $rows;
 	}
-
 
 	function create($reportDate, $id_booklet, $id_category, $description)
 	{ // Ausbildungsbericht anlegen

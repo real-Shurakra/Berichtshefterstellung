@@ -311,7 +311,7 @@ class Booklets
 
 	function getRandomReport() {
 		$connection = $this->databaseConnector()->connect();
-		$sql = "SELECT description FROM t_reports;";
+		$sql = "SELECT description FROM t_reports WHERE id_author = ".$_SESSION['id_user'].";";
 		$result = $connection->query($sql);
 		if (!$result) {
 			return false;

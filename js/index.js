@@ -79,7 +79,6 @@ function getRepots() {
     request.open("POST", "../php/Booklets.php", false);
     request.send(formData);
     var response = JSON.parse(request.responseText);
-    console.log(response);
     if (response['rc']){
         for (var i in response['rv']){
             var checkReportName = response['rv'][i]['subject'];
@@ -204,11 +203,17 @@ function bouncerCheck () {
     if (response){
         document.getElementById('btnLogoutDiv').innerHTML= htmLoad('logout.htm')
         document.getElementById('content').innerHTML = htmLoad('booklet.htm');
+        document.getElementById('modale').innerHTML = '';
+        document.getElementById('modale').innerHTML += htmLoad('modal_addCoAuthor.htm');
+        document.getElementById('modale').innerHTML += htmLoad('modal_newBooklet.htm');
+        document.getElementById('modale').innerHTML += htmLoad('modal_newReport.htm');
+        getAllCategories();
         getAllBooklets();
         getAllMail();
     }
     else{
         document.getElementById('content').innerHTML = htmLoad('login.htm');
+        document.getElementById('modale').innerHTML = '';
     }
 } 
 
@@ -356,11 +361,12 @@ function addCoAuthor() {
 
 function delCoAuthors() {
     var arrayCoAuthors = getSelectValues(document.getElementById('listCoAutors'));
-    var strBookletId = document.getElementById('heftauswahl').value.split('_')[0];
+    if (arrayCoAuthors.length === 0) {return;}
     var question = new FormData();
+    var xml = new XMLHttpRequest();
+    var strBookletId = document.getElementById('heftauswahl').value.split('_')[0];
     question.append('strBookletId', strBookletId);
     question.append('arrayCoAuthors', arrayCoAuthors);
-    var xml = new XMLHttpRequest();
     xml.open('POST', '../php/Booklets.php?method=delCoAuthors', false);
     xml.send(question);
     var response = JSON.parse(xml.responseText);
@@ -389,12 +395,11 @@ function getSelectValues(select) {
     return result;
   }
 
-  function getRandomReport() {
+function getRandomReport() {
     var xml = new XMLHttpRequest();
     xml.open('POST', '../php/Booklets.php?method=getRandomReport', false);
     xml.send();
     var response = JSON.parse(xml.responseText);
-    console.log(response)
     if (!response){
         var classNotify = new Notify();
         classNotify.setText(classNotify.noteType.fehler, '<strong>SQL Fehler bei Funktion "delCoAuthor"</strong><br>Bitte Kontaktieren Sie einen Administrator')
@@ -407,6 +412,52 @@ function getSelectValues(select) {
     }
 }
 
+function toLogin() {
+    document.getElementById('content').innerHTML = htmLoad('login.htm');
+}
+
+function toRegister(){
+    document.getElementById('content').innerHTML = htmLoad('register.htm');
+}
+
+function register() {
+    try{
+        classNotify = new Notify();
+        if (document.getElementById('mail').value == '' ||
+            document.getElementById('firstname').value == '' ||
+            document.getElementById('lastname').value == '' ||
+            document.getElementById('occupation').value == '' ||
+            document.getElementById('password1').value != document.getElementById('password2').value){
+            throw 'Bitte füllen Sie alle Felder aus.'}
+        var xml = new XMLHttpRequest();
+        var question = new FormData(document.getElementById('registerCreds'));
+        xml.open('POST', '../php/Page.php?method=register', false);
+        xml.send(question);
+        var response = JSON.parse(xml.responseText);
+        console.log(response)
+        if (response['rc'] == false){
+            let error = new Array();
+            error.push(response['rv'])
+            error.push(response['error'])
+            throw  error;}
+        else{classNotify.setText(classNotify.noteType.erfolg, response['rv']);}
+        
+    }
+    catch (error){
+        try{
+            classNotify.setText(classNotify.noteType.warnung, error[0]);
+            console.error(error[1])
+        }
+        catch{
+            classNotify.setText(classNotify.noteType.warnung, error);
+            console.error(error)
+        }
+    }
+    finally{
+        classNotify.makeModal();
+        classNotify.showModal();
+    }
+}
+
 bouncerCheck();
-getAllCategories();
 window.onscroll = function() {scrollFunction()};
