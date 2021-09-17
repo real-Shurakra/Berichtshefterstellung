@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 17. Sep 2021 um 09:15
+-- Erstellungszeit: 17. Sep 2021 um 19:26
 -- Server-Version: 10.4.8-MariaDB
 -- PHP-Version: 7.2.24
 
@@ -63,7 +63,8 @@ CREATE TABLE `t_apprentices` (
 INSERT INTO `t_apprentices` (`id`, `email`, `firstname`, `lastname`, `occupation`, `password`) VALUES
 (4, 'hans@peter.de', 'Hans', 'Peter', 'Fachinformatiker Anwendungsentwicklung', '597e1fa82f708f6c7b399938f58ca11cf785dd3a0943977b602b35c47a7e3ab8e9c4e67d7b0559ff0969e886bbd27aa9b393544550aafabbe2fd05b2b2741098'),
 (5, 'Heinz@dieter.de', 'Heinz', 'Dieter', 'Fachinformatiker Systemintegration', '0dfa94c36719f0b67c07b3740ab3924fa37b6cd746543a5a1d47dd7f71eb42ed084531ba353943fa83e220ca8d77429e2ebf38e114f40950c4c00a493610cb7d'),
-(6, 'Cute@katze.net', 'Kitty', 'Cute', 'Staadlich geprüfte Glas-vom-Tisch-schupserin', 'd836d65dfe8cc15b06dc1b22232b212717b75a6eaa10504624e0017d72596fab0101552ea1c7f4f59cef1880942ed35883630697294c5e488e1ab809bf629ef1');
+(6, 'Cute@katze.net', 'Kitty', 'Cute', 'Staadlich geprüfte Glas-vom-Tisch-schupserin', 'd836d65dfe8cc15b06dc1b22232b212717b75a6eaa10504624e0017d72596fab0101552ea1c7f4f59cef1880942ed35883630697294c5e488e1ab809bf629ef1'),
+(7, 'Micky.Maus@polizei-entenhausen.en', 'Micky', 'Maus', 'Polizist', '597e1fa82f708f6c7b399938f58ca11cf785dd3a0943977b602b35c47a7e3ab8e9c4e67d7b0559ff0969e886bbd27aa9b393544550aafabbe2fd05b2b2741098');
 
 -- --------------------------------------------------------
 
@@ -84,7 +85,9 @@ CREATE TABLE `t_booklets` (
 --
 
 INSERT INTO `t_booklets` (`id`, `creationdate`, `subject`, `id_creator`) VALUES
-(10, '2021-09-17', 'Bericht', 4);
+(10, '2021-09-17', 'Bericht', 4),
+(11, '2021-09-17', 'Bericht No. 1', 7),
+(12, '2021-09-17', 'Bericht No. 2', 4);
 
 -- --------------------------------------------------------
 
@@ -125,7 +128,9 @@ CREATE TABLE `t_memberof` (
 
 INSERT INTO `t_memberof` (`id_booklet`, `id_apprentice`) VALUES
 (10, 4),
-(10, 6);
+(10, 6),
+(11, 7),
+(12, 4);
 
 -- --------------------------------------------------------
 
@@ -141,18 +146,24 @@ CREATE TABLE `t_reports` (
   `id_author` bigint(20) UNSIGNED DEFAULT NULL,
   `id_booklet` bigint(20) UNSIGNED DEFAULT NULL,
   `id_category` bigint(20) UNSIGNED DEFAULT NULL,
-  `description` longtext NOT NULL
+  `description` longtext NOT NULL,
+  `edited` bigint(20) UNSIGNED DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Daten für Tabelle `t_reports`
 --
 
-INSERT INTO `t_reports` (`id`, `reportdate`, `creationdate`, `id_author`, `id_booklet`, `id_category`, `description`) VALUES
-(27, '2021-09-17', '2021-09-17', 4, 10, 1, 'Heute habe ich Kuchen gegessen'),
-(28, '2021-09-20', '2021-09-17', 4, 10, 1, 'Heute gab es noch mehr Kuchen!'),
-(29, '2021-09-21', '2021-09-17', 4, 10, 2, 'Ich habe ein Kuchen-Projekt erhalten <3'),
-(30, '2021-09-22', '2021-09-17', 4, 10, 3, 'Ich hasse Berufsschule.\r\nKein Kuchen...');
+INSERT INTO `t_reports` (`id`, `reportdate`, `creationdate`, `id_author`, `id_booklet`, `id_category`, `description`, `edited`) VALUES
+(27, '2021-09-17', '2021-09-17', 4, 10, 1, 'Heute habe ich Kuchen gegessen', 4),
+(28, '2021-09-20', '2021-09-17', 4, 10, 1, 'Heute gab es noch mehr Kuchen!', NULL),
+(29, '2021-09-21', '2021-09-17', 4, 10, 2, 'Ich habe ein Kuchen-Projekt erhalten <3', NULL),
+(30, '2021-09-22', '2021-09-17', 4, 10, 3, 'Ich hasse Berufsschule.\r\nKein Kuchen...', NULL),
+(32, '2021-09-17', '2021-09-17', 4, 10, 2, 'Ich habe ein Kuchen-Projekt erhalten <3', NULL),
+(33, '2021-09-17', '2021-09-17', 4, 10, 2, 'Heute gab es noch mehr Kuchen!', NULL),
+(37, '2021-09-15', '2021-09-17', 7, 11, 2, 'wqeg', NULL),
+(38, '2021-09-15', '2021-09-17', 7, 11, 2, 'Stiefel!', NULL),
+(39, '2021-09-16', '2021-09-17', 7, 11, 3, 'Der Dunkelelf...', NULL);
 
 -- --------------------------------------------------------
 
@@ -205,7 +216,8 @@ ALTER TABLE `t_reports`
   ADD UNIQUE KEY `id` (`id`),
   ADD KEY `id_author` (`id_author`),
   ADD KEY `id_booklet` (`id_booklet`),
-  ADD KEY `id_category` (`id_category`);
+  ADD KEY `id_category` (`id_category`),
+  ADD KEY `edited` (`edited`);
 
 --
 -- AUTO_INCREMENT für exportierte Tabellen
@@ -215,13 +227,13 @@ ALTER TABLE `t_reports`
 -- AUTO_INCREMENT für Tabelle `t_apprentices`
 --
 ALTER TABLE `t_apprentices`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT für Tabelle `t_booklets`
 --
 ALTER TABLE `t_booklets`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT für Tabelle `t_categories`
@@ -233,7 +245,7 @@ ALTER TABLE `t_categories`
 -- AUTO_INCREMENT für Tabelle `t_reports`
 --
 ALTER TABLE `t_reports`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- Constraints der exportierten Tabellen
@@ -258,7 +270,8 @@ ALTER TABLE `t_memberof`
 ALTER TABLE `t_reports`
   ADD CONSTRAINT `t_reports_ibfk_1` FOREIGN KEY (`id_author`) REFERENCES `t_apprentices` (`id`),
   ADD CONSTRAINT `t_reports_ibfk_2` FOREIGN KEY (`id_booklet`) REFERENCES `t_booklets` (`id`),
-  ADD CONSTRAINT `t_reports_ibfk_3` FOREIGN KEY (`id_category`) REFERENCES `t_categories` (`id`);
+  ADD CONSTRAINT `t_reports_ibfk_3` FOREIGN KEY (`id_category`) REFERENCES `t_categories` (`id`),
+  ADD CONSTRAINT `t_reports_ibfk_4` FOREIGN KEY (`edited`) REFERENCES `t_apprentices` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
