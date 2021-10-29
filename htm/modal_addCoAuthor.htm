@@ -1,0 +1,27 @@
+<div>
+    <div class="modal fade" id="newCoAuthor">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                <h4 class="modal-title">Neuen Bericht schreiben</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="newCoAuthorMail">E-Mail Adresse:</label>
+                        <a href="#" class="btnToTheRight" onclick="getAllMail()"><img src="../src/bootstrap-reboot.svg" alt="Reload Mail"></a>
+                        <input list="newCoAuthorDatalist" type="text" class="form-control" id="newCoAuthorMail">
+                        <div id="newCoAuthorResponse"></div>
+                    </div>
+                </div>
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" onclick="addCoAuthor()">Hinzufügen</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Schließen</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

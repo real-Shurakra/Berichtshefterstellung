@@ -1,0 +1,26 @@
+<div>
+    <div class="modal fade" id="newReportModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                <h4 class="modal-title">Neuen Bericht schreiben</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <input id="newReportDate" class="form-control"  type="date">
+                    <textarea class="form-control" rows="10" id="newReportText" placeholder="Erzähle was du gemacht hast."></textarea>
+                    <div id="newReportCategorySelect"></div>
+                    <div id="newReportModalResponse"></div>
+                </div>
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" onclick="createReport()">Speichern</button>
+                    <button id="btnMakeRandomReport" type="button" class="btn btn-warning" onclick="getRandomReport()">Zufall</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Schließen</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

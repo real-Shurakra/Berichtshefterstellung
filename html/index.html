@@ -13,44 +13,33 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script src="../js/index.js" defer></script>
+		<script src="../js/notify.js" defer></script>
 		<link rel="stylesheet" href="../css/main.css">
 	</head>
 
 	<body id="side-body">
-	
-		<header id="side-header">
-			<h1>Berichtshefterstellung</h1>
-			<p id="header-username">Willkommen Sample User</p>
-		</header>
-		
-		
-<nav class="navbar navbar-expand-sm bg-dark">
-	<ul class="navbar-nav">
-		<li class="nav-item">
-			<a class="nav-link you-are-here" href="main.html">Startseite</a>
-		</li>
-		<li class="nav-item">
-			<a class="nav-link" href="berichtsheft.html">Berichtshefte</a>
-		</li>
-		<li class="nav-item">
-			<a class="nav-link" href="anmelden.html">Anmelden</a>
-		</li>
-		<li class="nav-item">
-			<a class="nav-link" href="../index.php">Abmelden</a>
-		</li>
-	</ul>
-</nav>
-		
-		<main id="side-main">
-		
-		<p>Hier könnte Ihre Werbung stehen! </p>
-		
-		</main>
-		
-		<footer id="side-footer">
-		
-		</footer>
-		
-	</body>
+        <div class="background">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xl-10">
+                        <h1>Berichtsheft-Verwaltung</h1>
+                    </div>
+                    <div id="btnLogoutDiv" class="col-xl-2"></div>
+                    <div class="col-xl-12">
+                        <div id="topBlackBar"></div>
+                    </div>
+                </div>
+                <div id="content" class="row">
+                </div>
+                <footer>
+                    <button onclick="topFunction()" id="btnToTop" title="Zurück nach oben scrollen">Nach oben</button>
+                </footer>
+            </div>
+        </div>
+        <datalist id="newCoAuthorDatalist"></datalist>
+        <div id="modale"></div>
+        <div id="notifyDiv"></div>
+    </body>
 
 </html>

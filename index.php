@@ -4,4 +4,4 @@ session_unset();
 // Hier die Session Variablen
 
 // Bis hier
-header("location: html/main.html"); ?>
+header("location: html/index.html"); ?>

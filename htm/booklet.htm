@@ -1,0 +1,41 @@
+
+<div class="col-xl-3">
+    <div class="choseBookletItem shadow-none p-3 mb-3 bg-light rounded">
+        <div class="col-xl-12">
+            <h3>
+                Heftauswahl
+                <button type="button" class="btn btn-secondary btnToTheRight" data-toggle="modal" data-target="#newBookletModal">Neues Heft</button>
+            </h3>
+            <br>
+            <div id="options"></div>
+        </div>
+        <div class="col-xl-12">
+            <a><br>Erstelldatum:<input id="dateinput" class="btnToTheRight" type="date" disabled></a>
+            
+        </div>
+    </div>
+</div>
+<div class="col-xl-6">
+    <div class="seeReportItem shadow-none p-3 mb-3 bg-light rounded">
+        <h2>
+            Berichte
+            <button type="button" class="btn btn-secondary btnToTheRight" data-toggle="modal" data-target="#newReportModal">Neuer Bericht</button>
+        </h2>
+    </div>
+    <div id="reports"></div>
+</div>
+<div class="col-xl-3">
+    <div class="choseCoAuthorItem shadow-none p-3 mb-3 bg-light rounded">
+        <h3>
+            Co-Autoren
+            <button type="button" class="btn btn-secondary btnToTheRight" data-toggle="modal" data-target="#newCoAuthor">Co-Autor hinzufügen</button>
+        </h3>
+        <br>
+        <select multiple class="form-control" id="listCoAutors">
+            <option>- Keine -</option>
+        </select>
+        <div id="coauthorResponse"></div>
+        <br>
+        <button type="button" class="btn btn-secondary btnToTheRight" onclick="delCoAuthors()">Ausgewählte Coautoren entfernen</button>
+    </div>
+</div>
